@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Alt+/" to open settings.
-// @version      0.0.1
+// @version      1.0.0
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
-// @homepageURL
-// @supportURL
+// @homepageURL  https://github.com/marktaiwan/4chan-Custom-Shortcuts
+// @supportURL   https://github.com/marktaiwan/4chan-Custom-Shortcuts/issues
 // @match        https://boards.4channel.org/*
 // @match        https://boards.4chan.org/*
 // @grant        GM_addStyle
