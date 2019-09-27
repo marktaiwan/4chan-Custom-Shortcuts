@@ -208,7 +208,7 @@ const actions = {
 
       switch (getPageType()) {
         case 'index': case 'thread':
-          highlightedElementSelector = 'a.fileThumb, video.expandedWebm';
+          highlightedElementSelector = 'a.fileThumb:last-child, video.expandedWebm';
           break;
         case 'catalog':
           highlightedElementSelector = '#threads > .thread';
