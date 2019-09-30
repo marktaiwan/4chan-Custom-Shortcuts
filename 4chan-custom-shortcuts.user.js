@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
-// @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Alt+/" to open settings.
+// @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Shift+/" to open settings.
 // @version      1.0.0
 // @author       Marker
 // @license      MIT
@@ -968,6 +968,13 @@ function init() {
   document.addEventListener('keydown', keyHandler, {capture: true});
   document.addEventListener('keyup', keyHandler, {capture: true});
 
+  // Disable highlight when navigating away from current page.
+  // Workaround for Firefox preserving page state when moving forward
+  // and back in history.
+  window.addEventListener('pagehide', function () {
+    const ele = $('.highlighted');
+    if (ele) ele.classList.remove('highlighted');
+  });
 }
 
 init();
