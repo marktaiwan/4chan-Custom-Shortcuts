@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Shift+/" to open settings.
-// @version      1.0.1
+// @version      1.0.2
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
@@ -10,6 +10,7 @@
 // @match        https://boards.4channel.org/*
 // @match        https://boards.4chan.org/*
 // @grant        GM_addStyle
+// @grant        unsafeWindow
 // @noframes
 // ==/UserScript==
 
