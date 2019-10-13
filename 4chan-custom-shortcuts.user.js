@@ -219,7 +219,7 @@ const actions = {
       }
 
       if (highlightedElement) {
-        highlightedElement.classList.remove('highlighted');
+        unhighlight(highlightedElement);
       } else {
         if (lastSelected && isVisible(lastSelected)) {
           highlight(lastSelected);
@@ -553,8 +553,7 @@ function getWebm(ele) {
 function highlight(ele, setSmooth = true) {
   if (!ele) return;
 
-  const temp = $('.highlighted');
-  if (temp) temp.classList.remove('highlighted');
+  unhighlight($('.highlighted'));
 
   const anchor = (getPageType() == 'catalog') ? $('.thread > a', ele) : $('.fileText > a', ele.parentElement);
   anchor.focus({preventScroll: true});
@@ -571,6 +570,12 @@ function highlight(ele, setSmooth = true) {
   }
 
   lastSelected = ele;
+}
+
+function unhighlight(ele) {
+  if (!ele) return;
+  ele.classList.remove('highlighted');
+  document.activeElement.blur();
 }
 
 function scroll(direction, event) {
@@ -969,8 +974,7 @@ function init() {
   // Workaround for Firefox preserving page state when moving forward
   // and back in history.
   window.addEventListener('pagehide', function () {
-    const ele = $('.highlighted');
-    if (ele) ele.classList.remove('highlighted');
+    unhighlight($('.highlighted'));
   });
 }
 
