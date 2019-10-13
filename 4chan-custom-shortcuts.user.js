@@ -307,7 +307,7 @@ const actions = {
     name: 'Go to catalog',
     fn: () => {
       const boardId = getBoardId();
-      if (boardId) window.location.href = `/${boardId}/catalog`;
+      if (boardId && getPageType() !== 'catalog') window.location.href = `/${boardId}/catalog`;
     }
   },
   toggleSound: {
