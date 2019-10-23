@@ -175,12 +175,23 @@ const actions = {
   },
   pageUp: {
     name: 'Page up',
-    fn: () => {
+    fn: (event) => {
       const mediaBox = $('.highlighted');
       const scrollAmount = document.documentElement.clientHeight * 0.9;
-      if (mediaBox) {
-        // TODO: get nearest non visible
-        window.scrollBy(0, -scrollAmount);
+
+      if (mediaBox && getPageType() !== 'catalog') {
+        // get nearest non visible
+        const selector = 'a.fileThumb:last-child, video.expandedWebm';
+        const nodeList = $$(selector);
+        let position = [...nodeList].indexOf(mediaBox);
+        let thumb = mediaBox;
+
+        while (position > 0) {
+          thumb = nodeList[--position];
+          if (!isVisible(thumb)) break;
+        }
+
+        highlight(thumb, !event.repeat);
       } else {
         window.scrollBy(0, -scrollAmount);
       }
@@ -189,12 +200,23 @@ const actions = {
   },
   pageDown: {
     name: 'Page down',
-    fn: () => {
+    fn: (event) => {
       const mediaBox = $('.highlighted');
       const scrollAmount = document.documentElement.clientHeight * 0.9;
-      if (mediaBox) {
-        // TODO: get nearest non visible
-        window.scrollBy(0, scrollAmount);
+
+      if (mediaBox && getPageType() !== 'catalog') {
+        // get nearest non visible
+        const selector = 'a.fileThumb:last-child, video.expandedWebm';
+        const nodeList = $$(selector);
+        let position = [...nodeList].indexOf(mediaBox);
+        let thumb = mediaBox;
+
+        while (position < nodeList.length - 1) {
+          thumb = nodeList[++position];
+          if (!isVisible(thumb)) break;
+        }
+
+        highlight(thumb, !event.repeat);
       } else {
         window.scrollBy(0, scrollAmount);
       }
