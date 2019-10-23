@@ -984,7 +984,7 @@ function init() {
     preset_3: presets.preset_3,
     global: presets.global
   });
-  if (getStorage('usePreset') == null) setStorage('usePreset', 'default');
+  if (getStorage('usePreset') == null) setStorage('usePreset', 'preset_1');
 
   // 'capture' is set to true so that the event is dispatched to handler
   // before the native ones, so that the site shortcuts can be disabled
