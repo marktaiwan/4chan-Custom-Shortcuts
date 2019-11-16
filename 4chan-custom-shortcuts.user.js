@@ -94,6 +94,7 @@ const presets = {
     openInNewTab:      [{key: 'KeyE', shift: true}],
     prev:              [{key: 'KeyZ'}],
     next:              [{key: 'KeyX'}],
+    // toPost:            [],
     toIndex:           [{key: 'KeyI'}],
     toCatelog:         [{key: 'KeyC'}],
     toggleSound:       [{key: 'KeyM'}],
@@ -317,6 +318,13 @@ const actions = {
   next: {
     name: 'Next page',
     fn: () => click('.pageSwitcherForm input[accesskey="x"]')
+  },
+  toPost: {
+    name: 'Go to selected post',
+    fn: () => {
+      const thumb = $('a.highlighted, video.highlighted');  // exclude catalog
+      if (thumb) click('.postNum a:first-child', thumb.closest('.post'));
+    }
   },
   toIndex: {
     name: 'Go to index',
