@@ -272,6 +272,13 @@ const actions = {
               $('.collapseWebm a', mediaBox.parentElement).click();
             } else {
               $('img', mediaBox).click();
+              const video = mediaBox.nextElementSibling;
+              video.addEventListener('loadedmetadata', (e) => {
+                // only highlight if video still selected
+                if (e.target.parentElement && e.target.classList.contains('highlighted')) {
+                  highlight(e.target);
+                }
+              }, {once: true});
             }
           } else {
             const nodeList = $$('img', mediaBox);
@@ -279,6 +286,15 @@ const actions = {
             if (len) {
               const img = nodeList[len - 1];
               img.click();
+            }
+            const fullImg = $('img.expanded-thumb', mediaBox);
+            if (fullImg) {
+              onloadstart(fullImg).then(fullImg => {
+                // only highlight if image still selected
+                if (fullImg.parentElement.classList.contains('highlighted')) {
+                  highlight(fullImg.parentElement);
+                }
+              });
             }
           }
           highlight(mediaBox);
@@ -686,6 +702,27 @@ function keyboardNav(direction, mediaBox, setSmooth) {
     }
   }
   highlight(ele, setSmooth);
+}
+
+function onloadstart(img) {
+  const interval = 30;
+  let timeout;
+
+  function loadCheck(img, resolveFn) {
+    if (img.naturalWidth) {
+      resolveFn(img);
+    } else {
+      timeout = window.setTimeout(loadCheck, interval, img, resolveFn);
+    }
+  }
+
+  return (img.complete) ? Promise.resolve(img) : new Promise((resolve, reject) => {
+    img.addEventListener('error', () => {
+      window.clearTimeout(timeout);
+      reject();
+    }, {once: true});
+    timeout = window.setTimeout(loadCheck, interval, img, resolve);
+  });
 }
 
 function switchPreset(id) {
