@@ -705,7 +705,7 @@ function keyboardNav(direction, mediaBox, setSmooth) {
 }
 
 function onloadstart(img) {
-  const interval = 30;
+  const interval = 100;
   let timeout;
 
   function loadCheck(img, resolveFn) {
