@@ -281,12 +281,7 @@ const actions = {
               }, {once: true});
             }
           } else {
-            const nodeList = $$('img', mediaBox);
-            const len = nodeList.length;
-            if (len) {
-              const img = nodeList[len - 1];
-              img.click();
-            }
+            click('img:last-of-type', mediaBox);
             const fullImg = $('img.expanded-thumb', mediaBox);
             if (fullImg) {
               onloadstart(fullImg).then(fullImg => {
