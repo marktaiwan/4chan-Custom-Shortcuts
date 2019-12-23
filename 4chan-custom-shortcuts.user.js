@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Shift+/" to open settings.
-// @version      1.0.4
+// @version      1.0.5
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
@@ -645,13 +645,19 @@ function keyboardNav(direction, mediaBox, setSmooth) {
     const originalPos = {x: mediaBox.offsetLeft, y: mediaBox.offsetTop};
     const boxWidth = mediaBox.clientWidth;
     const errorMargin = boxWidth / 1.8;
+    const selector = '.thread';
+
     switch (direction) {
       case 'left': {
-        ele = mediaBox.previousElementSibling;
+        if (mediaBox.previousElementSibling.matches(selector)) {
+          ele = mediaBox.previousElementSibling;
+        }
         break;
       }
       case 'right': {
-        ele = mediaBox.nextElementSibling;
+        if (mediaBox.nextElementSibling.matches(selector)) {
+          ele = mediaBox.nextElementSibling;
+        }
         break;
       }
       case 'up': {
@@ -660,7 +666,10 @@ function keyboardNav(direction, mediaBox, setSmooth) {
           const currentPos = {x: currentBox.offsetLeft, y: currentBox.offsetTop};
           if (!similar(originalPos.y, currentPos.y, errorMargin)) ele = currentBox;
           if (currentPos.y < originalPos.y && similar(originalPos.x, currentPos.x, errorMargin)) break;
-        } while ((currentBox = currentBox.previousElementSibling));
+        } while (
+          (currentBox = currentBox.previousElementSibling)
+          && currentBox.matches(selector)
+        );
         break;
       }
       case 'down': {
@@ -675,7 +684,10 @@ function keyboardNav(direction, mediaBox, setSmooth) {
             currentRow = currentPos.y;
             if (currentPos.x > originalPos.x) break;
           }
-        } while ((currentBox = currentBox.nextElementSibling) && !currentBox.matches('.clear'));
+        } while (
+          (currentBox = currentBox.nextElementSibling)
+          && currentBox.matches(selector)
+        );
         break;
       }
     }
