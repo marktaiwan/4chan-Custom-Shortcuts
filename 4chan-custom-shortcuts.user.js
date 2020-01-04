@@ -489,20 +489,37 @@ const smoothscroll = (function () {
     x = (x != 0) ? Math.cos(rad) : 0;
     y = Math.sin(rad) * -1;
 
-    window.scrollBy(Math.round(x * velocity), Math.round(y * velocity));
+    const direction = (keydown.up && !keydown.down) ? 'up'
+      : (!keydown.up && keydown.down) ? 'down'
+      : null;
+
+    if (preventKeyboardNav($('.highlighted'), direction)) {
+      window.scrollBy(Math.round(x * velocity), Math.round(y * velocity));
+    }
+
     pendingFrame = window.requestAnimationFrame(step);
   }
 
-  return function (direction, type) {
-    switch (type) {
-      case 'keydown':
-        if (noKeyDown()) pendingFrame = window.requestAnimationFrame(step);
-        keydown[direction] = true;
-        break;
-      case 'keyup':
-        keydown[direction] = false;
-        if (noKeyDown()) reset();
-        break;
+  return {
+    scroll: function (direction, type) {
+      switch (type) {
+        case 'keydown':
+          if (noKeyDown()) pendingFrame = window.requestAnimationFrame(step);
+          keydown[direction] = true;
+          break;
+        case 'keyup':
+          keydown[direction] = false;
+          if (noKeyDown()) reset();
+          break;
+      }
+    },
+    scrolling: () => !noKeyDown(),
+    reset: dir => {
+      if (!dir) {
+        reset();
+      } else {
+        keydown[dir] = false;
+      }
     }
   };
 })();
@@ -619,14 +636,31 @@ function unhighlight(ele) {
   document.activeElement.blur();
 }
 
-function scroll(direction, event) {
-  const type = event.type;
-  const mediaBox = $('.highlighted');
+function preventKeyboardNav(selected, direction) {
+  if (!selected || !direction) return true;
 
-  if (mediaBox && type == 'keydown') {
-    keyboardNav(direction, mediaBox, !event.repeat);
-  } else if (!event.repeat){
-    smoothscroll(direction, type);
+  const fullImg = $('.expanded-thumb', selected) || $('video.highlighted');
+  if (!fullImg || !isVisible(fullImg)) return false;
+
+  const {top, bottom, height} = getRect(fullImg);
+  const clientHeight = document.documentElement.clientHeight;
+  const margin = clientHeight * 0.01;
+
+  return (height > clientHeight
+    && ((direction == 'up' && top - margin < 0)
+      || (direction == 'down' && bottom + margin > clientHeight)));
+}
+
+function scroll(direction, event) {
+  const {type, repeat} = event;
+  const selected = $('.highlighted');
+
+  if (preventKeyboardNav(selected, direction) && !repeat) {
+    smoothscroll.scroll(direction, type);
+  } else if (type == 'keydown' && !smoothscroll.scrolling()) {
+    keyboardNav(direction, selected, !repeat);
+  } else if (type == 'keyup') {
+    smoothscroll.reset(direction);
   }
 }
 
