@@ -89,6 +89,8 @@ const presets = {
     scrollRight:       [{key: 'KeyD'}, {key: 'ArrowRight'}],
     pageUp:            [{key: 'KeyW', shift: true}],
     pageDown:          [{key: 'KeyS', shift: true}],
+    // prevExpanded:      [],
+    // nextExpanded:      [],
     toggleKeyboardNav: [{key: 'KeyQ'}],
     openSelected:      [{key: 'KeyE'}],
     openInNewTab:      [{key: 'KeyE', shift: true}],
@@ -220,6 +222,48 @@ const actions = {
         highlight(thumb, !event.repeat);
       } else {
         window.scrollBy(0, scrollAmount);
+      }
+    },
+    repeat: true
+  },
+  prevExpanded: {
+    name: 'Previous expanded image',
+    fn: (event) => {
+      const ele = $('.highlighted');
+      if (!ele || getPageType() == 'catalog') return;
+
+      const smooth = !event.repeat;
+      const selector = 'a.fileThumb:last-child, video.expandedWebm';
+      const nodeList = $$(selector);
+      let position = [...nodeList].indexOf(ele);
+
+      while (position > 0) {
+        const current = nodeList.item(--position);
+        if (current.matches('video') || $('.expanded-thumb', current)) {
+          highlight(current, smooth);
+          return
+        }
+      }
+    },
+    repeat: true
+  },
+  nextExpanded: {
+    name: 'Next expanded image',
+    fn: (event) => {
+      const ele = $('.highlighted');
+      if (!ele || getPageType() == 'catalog') return;
+
+      const smooth = !event.repeat;
+      const selector = 'a.fileThumb:last-child, video.expandedWebm';
+      const nodeList = $$(selector);
+      let position = [...nodeList].indexOf(ele);
+
+      while (position < nodeList.length - 1) {
+        const current = nodeList.item(++position);
+        if (current.matches('video') || $('.expanded-thumb', current)) {
+          highlight(current, smooth);
+          return
+        }
       }
     },
     repeat: true
