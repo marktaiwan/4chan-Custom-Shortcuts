@@ -664,11 +664,15 @@ function highlight(ele, setSmooth = true) {
   ele.classList.add('highlighted');
 
   if (!isVisible(ele)) {
-    if (setSmooth) {
-      ele.scrollIntoView({behavior: 'smooth', block: 'center'});
-    } else {
-      ele.scrollIntoView({behavior: 'auto', block: 'nearest'});
-    }
+    const viewportHeight = document.documentElement.clientHeight;
+    const eleHeight = ele.getBoundingClientRect().height;
+    const padding = viewportHeight * 0.01 * 2;
+    const behavior = (setSmooth) ? 'smooth' : 'auto';
+    const block = (setSmooth && eleHeight + padding * 2 < viewportHeight)
+      ? 'center'
+      : 'nearest';
+
+    ele.scrollIntoView({behavior, block});
   }
 
   lastSelected = ele;
