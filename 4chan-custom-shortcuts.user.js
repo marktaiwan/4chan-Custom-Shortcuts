@@ -423,7 +423,7 @@ const actions = {
   },
   threadUpdate: {
     name: 'Update thread',
-    fn: () => click('a[data-cmd="update"]')
+    fn: () => click('a[data-cmd="update"], a#refresh-btn')
   },
   historyBack: {
     name: 'Go back in browser history',
