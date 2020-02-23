@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Shift+/" to open settings.
-// @version      1.1.1
+// @version      1.1.2
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
@@ -10,6 +10,7 @@
 // @match        https://boards.4channel.org/*
 // @match        https://boards.4chan.org/*
 // @grant        GM_addStyle
+// @grant        GM_openInTab
 // @grant        unsafeWindow
 // @noframes
 // ==/UserScript==
@@ -94,6 +95,7 @@ const presets = {
     toggleKeyboardNav: [{key: 'KeyQ'}],
     openSelected:      [{key: 'KeyE'}],
     openInNewTab:      [{key: 'KeyE', shift: true}],
+    // OpenInBackground:  [],
     prev:              [{key: 'KeyZ'}],
     next:              [{key: 'KeyX'}],
     // toPost:            [],
@@ -361,6 +363,25 @@ const actions = {
         case 'catalog': {
           const thumb = $('.thumb', mediaBox);
           if (thumb) window.open(thumb.parentElement.href, '_blank');
+          break;
+        }
+      }
+    }
+  },
+  OpenInBackground: {
+    name: 'Open selected in background tab',
+    fn: () => {
+      const mediaBox = $('.highlighted');
+      if (!mediaBox) return;
+
+      switch (getPageType()) {
+        case 'index': case 'thread': {
+          GM_openInTab($('.fileText > a', mediaBox.parentElement).href, {active: false});
+          break;
+        }
+        case 'catalog': {
+          const thumb = $('.thumb', mediaBox);
+          if (thumb) GM_openInTab(thumb.parentElement.href, {active: false});
           break;
         }
       }
