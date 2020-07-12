@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Shift+/" to open settings.
-// @version      1.1.2
+// @version      1.1.3
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
@@ -243,7 +243,7 @@ const actions = {
         const current = nodeList.item(--position);
         if (current.matches('video') || $('.expanded-thumb', current)) {
           highlight(current, smooth);
-          return
+          return;
         }
       }
     },
@@ -264,7 +264,7 @@ const actions = {
         const current = nodeList.item(++position);
         if (current.matches('video') || $('.expanded-thumb', current)) {
           highlight(current, smooth);
-          return
+          return;
         }
       }
     },
@@ -654,7 +654,7 @@ function getFirstVisibleOrClosest(selector) {
 
 function getPageType() {
   const classList = document.body.classList;
-  if (classList.contains('is_index')) return 'index';
+  if (classList.contains('is_index') || classList.contains('is_search')) return 'index';
   if (classList.contains('is_thread')) return 'thread';
   if (classList.contains('is_catalog')) return 'catalog';
 }
