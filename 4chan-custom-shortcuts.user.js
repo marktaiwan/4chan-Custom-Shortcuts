@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigations. "Ctrl+Shift+/" to open settings.
-// @version      1.1.3
+// @version      1.1.4
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
@@ -537,10 +537,12 @@ const smoothscroll = (function () {
     const elapsed = timestamp - startTime;
     const maxVelocity = 40; // px/frame
     const easeDuration = 250;  // ms
+    const scale = window.devicePixelRatio;
 
-    const velocity = (elapsed > easeDuration)
+    const velocity = ((elapsed > easeDuration)
       ? maxVelocity
-      : maxVelocity * (elapsed / easeDuration);
+      : maxVelocity * (elapsed / easeDuration)
+    ) / scale;
 
     let x = 0;
     let y = 0;
