@@ -180,7 +180,7 @@ const actions = {
   },
   pageUp: {
     name: 'Page up',
-    fn: (event) => {
+    fn: event => {
       const mediaBox = $('.highlighted');
       const scrollAmount = document.documentElement.clientHeight * 0.9;
 
@@ -205,7 +205,7 @@ const actions = {
   },
   pageDown: {
     name: 'Page down',
-    fn: (event) => {
+    fn: event => {
       const mediaBox = $('.highlighted');
       const scrollAmount = document.documentElement.clientHeight * 0.9;
 
@@ -230,7 +230,7 @@ const actions = {
   },
   prevExpanded: {
     name: 'Previous expanded image',
-    fn: (event) => {
+    fn: event => {
       const ele = $('.highlighted');
       if (!ele || getPageType() == 'catalog') return;
 
@@ -251,7 +251,7 @@ const actions = {
   },
   nextExpanded: {
     name: 'Next expanded image',
-    fn: (event) => {
+    fn: event => {
       const ele = $('.highlighted');
       if (!ele || getPageType() == 'catalog') return;
 
@@ -319,7 +319,7 @@ const actions = {
             } else {
               $('img', mediaBox).click();
               const video = mediaBox.nextElementSibling;
-              video.addEventListener('loadedmetadata', (e) => {
+              video.addEventListener('loadedmetadata', e => {
                 // only highlight if video still selected
                 if (e.target.parentElement && e.target.classList.contains('highlighted')) {
                   highlight(e.target);
@@ -475,7 +475,7 @@ const actions = {
     global: true
   },
   unfocus: {
-    fn: (event) => {
+    fn: event => {
       const target = event.target;
       let stopPropagation = true;
 
