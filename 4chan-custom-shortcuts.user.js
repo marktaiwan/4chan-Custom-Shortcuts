@@ -95,7 +95,7 @@ const presets = {
     toggleKeyboardNav: [{key: 'KeyQ'}],
     openSelected:      [{key: 'KeyE'}],
     openInNewTab:      [{key: 'KeyE', shift: true}],
-    OpenInBackground:  [],
+    openInBackground:  [],
     prev:              [{key: 'KeyZ'}],
     next:              [{key: 'KeyX'}],
     toPost:            [],
@@ -368,7 +368,7 @@ const actions = {
       }
     }
   },
-  OpenInBackground: {
+  openInBackground: {
     name: 'Open selected in background tab',
     fn: () => {
       const mediaBox = $('.highlighted');
