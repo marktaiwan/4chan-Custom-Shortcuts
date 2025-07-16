@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Custom Shortcuts
 // @description  Configurable shortcuts and enhanced keyboard navigation. "Ctrl+Shift+/" to open settings.
-// @version      1.1.6
+// @version      1.1.7
 // @author       Marker
 // @license      MIT
 // @namespace    https://github.com/marktaiwan/
@@ -681,7 +681,7 @@ function highlight(ele, setSmooth = true) {
   unhighlight($('.highlighted'));
 
   const anchor = (getPageType() == 'catalog') ? $('.thread > a', ele) : $('.fileText > a', ele.parentElement);
-  anchor.focus({preventScroll: true});
+  anchor.focus({preventScroll: true, focusVisible: false});
 
   if (webmExpanded(ele)) ele = getWebm(ele);
   ele.classList.add('highlighted');
