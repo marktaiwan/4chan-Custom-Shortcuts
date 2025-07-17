@@ -333,7 +333,10 @@ const actions = {
               onloadstart(fullImg).then(fullImg => {
                 // only highlight if image still selected
                 if (fullImg.parentElement.classList.contains('highlighted')) {
-                  highlight(fullImg.parentElement);
+                  // work around for scroll not always working on Firefox
+                  requestAnimationFrame(() => {
+                    highlight(fullImg.parentElement);
+                  });
                 }
               });
             }
