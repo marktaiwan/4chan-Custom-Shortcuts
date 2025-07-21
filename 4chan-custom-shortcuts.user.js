@@ -630,8 +630,8 @@ function isVisible(ele) {
   const {top, bottom, height, mid} = getRect(ele);
   const margin = Math.min(Math.max(50, height / 4), clientHeight / 4);
 
-  return (mid > 0 + margin && mid < clientHeight - margin
-    || top < 0 + margin && bottom > clientHeight - margin);
+  return ((mid > 0 + margin && mid < clientHeight - margin)
+    || (top < 0 + margin && bottom > clientHeight - margin));
 }
 
 function getFirstVisibleOrClosest(selector) {
@@ -1090,8 +1090,8 @@ function openSettings() {
 
   // close panel
   panelWrapper.addEventListener('click', e => {
-    if (e.target == e.currentTarget ||
-      e.target.matches(`#${SCRIPT_ID}--close-button`)) {
+    if (e.target == e.currentTarget
+      || e.target.matches(`#${SCRIPT_ID}--close-button`)) {
       panelWrapper.remove();
     }
   });
